@@ -3,28 +3,22 @@ local b=a.LocalPlayer
 local c=b:WaitForChild("PlayerGui")
 if c:FindFirstChild("GameScriptHub")then c.GameScriptHub:Destroy()end
 local d=Instance.new("ScreenGui",c)d.Name="GameScriptHub"
-local e=Instance.new("Frame",d)
-e.Size=UDim2.new(0.8,0,0.8,0)
-e.Position=UDim2.new(0.1,0,0.1,0)
-e.BackgroundColor3=Color3.fromRGB(30,30,30)
-e.BorderSizePixel=0
-local f=Instance.new("UICorner",e)f.CornerRadius=UDim.new(0,15)
-local g=Instance.new("Frame",e)
-g.Size=UDim2.new(1,0,0,50)
-g.BackgroundTransparency=1
-local h=Instance.new("ScrollingFrame",e)
-h.Size=UDim2.new(1,-20,1,-60)
-h.Position=UDim2.new(0,10,0,50)
-h.BackgroundTransparency=1
-h.ScrollBarThickness=8
-local i=Instance.new("UIListLayout",h)
-i.Padding=UDim.new(0,10)i.SortOrder=Enum.SortOrder.LayoutOrder
-local j={}
-local function k(l,m)local n=Instance.new("TextButton",h)n.Text=l;n.Size=UDim2.new(1,0,0,50)n.BackgroundColor3=Color3.fromRGB(50,50,50)n.TextColor3=Color3.fromRGB(255,255,255)n.BorderSizePixel=0;local o=Instance.new("UICorner",n)o.CornerRadius=UDim.new(0,10)n.MouseButton1Click:Connect(m)table.insert(j,n)end
-local p={"Godly Knife"}
-local q={"Kat X WIP"}
-local function r(s)if d:FindFirstChild("WaitOverlay")then d.WaitOverlay:Destroy()end;local t=Instance.new("Frame")t.Name="WaitOverlay"t.Size=UDim2.new(1,0,1,0)t.Position=UDim2.new(0,0,0,0)t.BackgroundColor3=Color3.new(0,0,0)t.BackgroundTransparency=0.6;t.Parent=d;t.ZIndex=10;local u=Instance.new("TextLabel",t)u.Size=UDim2.new(1,0,0,100)u.Position=UDim2.new(0,0,0.5,-50)u.BackgroundTransparency=1;u.TextScaled=true;u.TextColor3=Color3.fromRGB(255,255,255)u.Font=Enum.Font.GothamBold;for v=s,0,-1 do u.Text=tostring(v) wait(1)end;u.Text="It may be laggy..." wait(2) t:Destroy()end
-local function w(x)for _,y in ipairs(j)do y:Destroy()end;j={};for _,z in ipairs(x)do if z=="Godly Knife"then k(z,function()loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/",true))()r(300)end)elseif z=="Kat X WIP"then k(z,function()local A=Instance.new("TextLabel",d)A.Size=UDim2.new(0.5,0,0.1,0)A.Position=UDim2.new(0.25,0,0.45,0)A.BackgroundColor3=Color3.fromRGB(80,0,80)A.TextColor3=Color3.fromRGB(255,255,255)A.TextScaled=true;A.Text="Kat X is WIP"game.Debris:AddItem(A,3)end)end end end
-local B=Instance.new("TextButton",g)B.Size=UDim2.new(0.5,0,1,0)B.Text="MM2"B.BackgroundColor3=Color3.fromRGB(70,70,70)B.TextColor3=Color3.fromRGB(255,255,255)Instance.new("UICorner",B).CornerRadius=UDim.new(0,10)B.MouseButton1Click:Connect(function()w(p)end)
-local C=Instance.new("TextButton",g)C.Size=UDim2.new(0.5,0,1,0)C.Position=UDim2.new(0.5,0,0,0)C.Text="Kat X"C.BackgroundColor3=Color3.fromRGB(120,0,120)C.TextColor3=Color3.fromRGB(255,255,255)Instance.new("UICorner",C).CornerRadius=UDim.new(0,10)C.MouseButton1Click:Connect(function()w(q)end)
-w(p)
+local e=Instance.new("Frame",d)e.Size=UDim2.new(0.8,0,0.8,0)e.Position=UDim2.new(0.1,0,0.1,0)e.BackgroundColor3=Color3.fromRGB(30,30,30)e.BorderSizePixel=0
+Instance.new("UICorner",e).CornerRadius=UDim.new(0,15)
+local f=Instance.new("Frame",e)f.Size=UDim2.new(1,0,0,50)f.BackgroundTransparency=1
+local g=Instance.new("ScrollingFrame",e)g.Size=UDim2.new(1,-20,1,-60)g.Position=UDim2.new(0,10,0,50)g.BackgroundTransparency=1;g.ScrollBarThickness=8
+local h=Instance.new("UIListLayout",g)h.Padding=UDim.new(0,10)h.SortOrder=Enum.SortOrder.LayoutOrder
+local i={}
+local function j(k,l)local m=Instance.new("TextButton",g)m.Text=k;m.Size=UDim2.new(1,0,0,50)m.BackgroundColor3=Color3.fromRGB(50,50,50)m.TextColor3=Color3.fromRGB(255,255,255)m.BorderSizePixel=0;Instance.new("UICorner",m).CornerRadius=UDim.new(0,10)m.MouseButton1Click:Connect(l)table.insert(i,m)end
+local n={"Godly Knife"}
+local o={"Kat X WIP"}
+local p=nil
+local function q(r)if p then p:Destroy()end;p=Instance.new("Frame",d)p.Size=UDim2.new(1,0,1,0)p.BackgroundColor3=Color3.new(0,0,0)p.BackgroundTransparency=0.6;p.ZIndex=10
+local s=Instance.new("TextLabel",p)s.Size=UDim2.new(1,0,0,100)s.Position=UDim2.new(0,0,0.5,-50)s.BackgroundTransparency=1;s.TextScaled=true;s.TextColor3=Color3.fromRGB(255,255,255)s.Font=Enum.Font.GothamBold
+for t=r,0,-1 do s.Text=tostring(t) wait(1)end;s.Text="It may be laggy..." wait(2)p:Destroy();p=nil end
+local function u(v)for _,w in ipairs(i)do w:Destroy()end;i={};for _,x in ipairs(v)do
+if x=="Godly Knife"then j(x,function()loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/",true))()q(300)end)
+elseif x=="Kat X WIP"then j(x,function()local y=Instance.new("TextLabel",d)y.Size=UDim2.new(0.5,0,0.1,0)y.Position=UDim2.new(0.25,0,0.45,0)y.BackgroundColor3=Color3.fromRGB(80,0,80)y.TextColor3=Color3.fromRGB(255,255,255)y.TextScaled=true;y.Text="Kat X is WIP"game.Debris:AddItem(y,3)end)end end end
+local z=Instance.new("TextButton",f)z.Size=UDim2.new(0.5,0,1,0)z.Text="MM2"z.BackgroundColor3=Color3.fromRGB(70,70,70)Instance.new("UICorner",z).CornerRadius=UDim.new(0,10)z.TextColor3=Color3.fromRGB(255,255,255)z.MouseButton1Click:Connect(function()u(n)end)
+local A=Instance.new("TextButton",f)A.Size=UDim2.new(0.5,0,1,0)A.Position=UDim2.new(0.5,0,0,0)A.Text="Kat X"A.BackgroundColor3=Color3.fromRGB(120,0,120)Instance.new("UICorner",A).CornerRadius=UDim.new(0,10)A.TextColor3=Color3.fromRGB(255,255,255)A.MouseButton1Click:Connect(function()u(o)end)
+u(n)
