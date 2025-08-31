@@ -1,162 +1,30 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui")
-
--- Clear old GUI if exists
-if PlayerGui:FindFirstChild("GameScriptHub") then
-    PlayerGui.GameScriptHub:Destroy()
-end
-
--- Main GUI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "GameScriptHub"
-ScreenGui.Parent = PlayerGui
-
--- Main frame
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0.8, 0, 0.8, 0)
-MainFrame.Position = UDim2.new(0.1, 0, 0.1, 0)
-MainFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = ScreenGui
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-
--- UICorner for fancy rounded look
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0,15)
-UICorner.Parent = MainFrame
-
--- Tabs container
-local TabFrame = Instance.new("Frame")
-TabFrame.Size = UDim2.new(1, 0, 0, 50)
-TabFrame.Position = UDim2.new(0,0,0,0)
-TabFrame.BackgroundTransparency = 1
-TabFrame.Parent = MainFrame
-
--- Buttons container
-local ButtonsFrame = Instance.new("ScrollingFrame")
-ButtonsFrame.Size = UDim2.new(1, -20, 1, -60)
-ButtonsFrame.Position = UDim2.new(0,10,0,50)
-ButtonsFrame.BackgroundTransparency = 1
-ButtonsFrame.ScrollBarThickness = 8
-ButtonsFrame.CanvasSize = UDim2.new(0,0,0,0)
-ButtonsFrame.Parent = MainFrame
-
-local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.Padding = UDim.new(0,10)
-UIListLayout.Parent = ButtonsFrame
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-local buttons = {}
-
-local function CreateButton(name, callback)
-    local btn = Instance.new("TextButton")
-    btn.Text = name
-    btn.Size = UDim2.new(1,0,0,50)
-    btn.BackgroundColor3 = Color3.fromRGB(50,50,50)
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.BorderSizePixel = 0
-    btn.AutoButtonColor = true
-    local corner = Instance.new("UICorner",btn)
-    corner.CornerRadius = UDim.new(0,10)
-    btn.Parent = ButtonsFrame
-    btn.MouseButton1Click:Connect(callback)
-    table.insert(buttons, btn)
-end
-
--- MM2 Buttons
-local MM2Buttons = {"Godly Knife"}
-
--- Kat X WIP
-local KatXButtons = {"Kat X WIP"}
-
--- Dark overlay and timer function
-local function WaitTimer(duration)
-    -- Remove previous overlay if exists
-    if ScreenGui:FindFirstChild("WaitOverlay") then
-        ScreenGui.WaitOverlay:Destroy()
-    end
-
-    local overlay = Instance.new("Frame")
-    overlay.Name = "WaitOverlay"
-    overlay.Size = UDim2.new(1,0,1,0)
-    overlay.Position = UDim2.new(0,0,0,0)
-    overlay.BackgroundColor3 = Color3.new(0,0,0)
-    overlay.BackgroundTransparency = 0.6
-    overlay.Parent = ScreenGui
-    overlay.ZIndex = 10
-
-    local TimerLabel = Instance.new("TextLabel")
-    TimerLabel.Size = UDim2.new(1,0,0,100)
-    TimerLabel.Position = UDim2.new(0,0,0.5,-50)
-    TimerLabel.BackgroundTransparency = 1
-    TimerLabel.TextScaled = true
-    TimerLabel.TextColor3 = Color3.fromRGB(255,255,255)
-    TimerLabel.Font = Enum.Font.GothamBold
-    TimerLabel.Text = tostring(duration)
-    TimerLabel.Parent = overlay
-
-    for i = duration,0,-1 do
-        TimerLabel.Text = tostring(i)
-        wait(1)
-    end
-    TimerLabel.Text = "It may be laggy..."
-    wait(2)
-    overlay:Destroy()
-end
-
--- Show buttons
-local function ShowButtons(list)
-    for _,btn in ipairs(buttons) do btn:Destroy() end
-    buttons = {}
-    for _,name in ipairs(list) do
-        if name == "Godly Knife" then
-            CreateButton(name,function()
-                -- Run the paste.debian placeholder script
-                loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))()
-                -- Start 5-min wait timer (300 seconds)
-                WaitTimer(300)
-            end)
-        elseif name == "Kat X WIP" then
-            CreateButton(name,function()
-                -- Simple placeholder for WIP
-                local msg = Instance.new("TextLabel")
-                msg.Size = UDim2.new(0.5,0,0.1,0)
-                msg.Position = UDim2.new(0.25,0,0.45,0)
-                msg.BackgroundColor3 = Color3.fromRGB(80,0,80)
-                msg.TextColor3 = Color3.fromRGB(255,255,255)
-                msg.TextScaled = true
-                msg.Text = "Kat X is WIP"
-                msg.Parent = ScreenGui
-                game.Debris:AddItem(msg,3)
-            end)
-        end
-    end
-end
-
--- Tabs
-local MM2TabBtn = Instance.new("TextButton",TabFrame)
-MM2TabBtn.Size = UDim2.new(0.5,0,1,0)
-MM2TabBtn.Text = "MM2"
-MM2TabBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
-local corner1 = Instance.new("UICorner",MM2TabBtn)
-corner1.CornerRadius = UDim.new(0,10)
-MM2TabBtn.TextColor3 = Color3.fromRGB(255,255,255)
-MM2TabBtn.MouseButton1Click:Connect(function()
-    ShowButtons(MM2Buttons)
-end)
-
-local KatXTabBtn = Instance.new("TextButton",TabFrame)
-KatXTabBtn.Size = UDim2.new(0.5,0,1,0)
-KatXTabBtn.Position = UDim2.new(0.5,0,0,0)
-KatXTabBtn.Text = "Kat X"
-KatXTabBtn.BackgroundColor3 = Color3.fromRGB(120,0,120)
-local corner2 = Instance.new("UICorner",KatXTabBtn)
-corner2.CornerRadius = UDim.new(0,10)
-KatXTabBtn.TextColor3 = Color3.fromRGB(255,255,255)
-KatXTabBtn.MouseButton1Click:Connect(function()
-    ShowButtons(KatXButtons)
-end)
-
--- Show MM2 buttons by default
-ShowButtons(MM2Buttons)
+local a=game:GetService("Players")
+local b=a.LocalPlayer
+local c=b:WaitForChild("PlayerGui")
+if c:FindFirstChild("GameScriptHub")then c.GameScriptHub:Destroy()end
+local d=Instance.new("ScreenGui",c)d.Name="GameScriptHub"
+local e=Instance.new("Frame",d)
+e.Size=UDim2.new(0.8,0,0.8,0)
+e.Position=UDim2.new(0.1,0,0.1,0)
+e.BackgroundColor3=Color3.fromRGB(30,30,30)
+e.BorderSizePixel=0
+local f=Instance.new("UICorner",e)f.CornerRadius=UDim.new(0,15)
+local g=Instance.new("Frame",e)
+g.Size=UDim2.new(1,0,0,50)
+g.BackgroundTransparency=1
+local h=Instance.new("ScrollingFrame",e)
+h.Size=UDim2.new(1,-20,1,-60)
+h.Position=UDim2.new(0,10,0,50)
+h.BackgroundTransparency=1
+h.ScrollBarThickness=8
+local i=Instance.new("UIListLayout",h)
+i.Padding=UDim.new(0,10)i.SortOrder=Enum.SortOrder.LayoutOrder
+local j={}
+local function k(l,m)local n=Instance.new("TextButton",h)n.Text=l;n.Size=UDim2.new(1,0,0,50)n.BackgroundColor3=Color3.fromRGB(50,50,50)n.TextColor3=Color3.fromRGB(255,255,255)n.BorderSizePixel=0;local o=Instance.new("UICorner",n)o.CornerRadius=UDim.new(0,10)n.MouseButton1Click:Connect(m)table.insert(j,n)end
+local p={"Godly Knife"}
+local q={"Kat X WIP"}
+local function r(s)if d:FindFirstChild("WaitOverlay")then d.WaitOverlay:Destroy()end;local t=Instance.new("Frame")t.Name="WaitOverlay"t.Size=UDim2.new(1,0,1,0)t.Position=UDim2.new(0,0,0,0)t.BackgroundColor3=Color3.new(0,0,0)t.BackgroundTransparency=0.6;t.Parent=d;t.ZIndex=10;local u=Instance.new("TextLabel",t)u.Size=UDim2.new(1,0,0,100)u.Position=UDim2.new(0,0,0.5,-50)u.BackgroundTransparency=1;u.TextScaled=true;u.TextColor3=Color3.fromRGB(255,255,255)u.Font=Enum.Font.GothamBold;for v=s,0,-1 do u.Text=tostring(v) wait(1)end;u.Text="It may be laggy..." wait(2) t:Destroy()end
+local function w(x)for _,y in ipairs(j)do y:Destroy()end;j={};for _,z in ipairs(x)do if z=="Godly Knife"then k(z,function()loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/",true))()r(300)end)elseif z=="Kat X WIP"then k(z,function()local A=Instance.new("TextLabel",d)A.Size=UDim2.new(0.5,0,0.1,0)A.Position=UDim2.new(0.25,0,0.45,0)A.BackgroundColor3=Color3.fromRGB(80,0,80)A.TextColor3=Color3.fromRGB(255,255,255)A.TextScaled=true;A.Text="Kat X is WIP"game.Debris:AddItem(A,3)end)end end end
+local B=Instance.new("TextButton",g)B.Size=UDim2.new(0.5,0,1,0)B.Text="MM2"B.BackgroundColor3=Color3.fromRGB(70,70,70)B.TextColor3=Color3.fromRGB(255,255,255)Instance.new("UICorner",B).CornerRadius=UDim.new(0,10)B.MouseButton1Click:Connect(function()w(p)end)
+local C=Instance.new("TextButton",g)C.Size=UDim2.new(0.5,0,1,0)C.Position=UDim2.new(0.5,0,0,0)C.Text="Kat X"C.BackgroundColor3=Color3.fromRGB(120,0,120)C.TextColor3=Color3.fromRGB(255,255,255)Instance.new("UICorner",C).CornerRadius=UDim.new(0,10)C.MouseButton1Click:Connect(function()w(q)end)
+w(p)
