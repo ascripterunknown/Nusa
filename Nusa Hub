@@ -7,17 +7,28 @@ if PlayerGui:FindFirstChild("GameScriptHub") then
     PlayerGui.GameScriptHub:Destroy()
 end
 
--- Main GUI
+-- Main ScreenGui
 local ScreenGui = Instance.new("ScreenGui", PlayerGui)
 ScreenGui.Name = "GameScriptHub"
 
+-- Toggle button at top
+local ToggleBtn = Instance.new("TextButton", ScreenGui)
+ToggleBtn.Size = UDim2.new(0, 30, 0, 30)
+ToggleBtn.Position = UDim2.new(0, 10, 0, 10)
+ToggleBtn.Text = "X"
+ToggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(200,50,50)
+ToggleBtn.BorderSizePixel = 0
+local Corner = Instance.new("UICorner", ToggleBtn)
+Corner.CornerRadius = UDim.new(0,15)
+
+-- Main Frame
 local MainFrame = Instance.new("Frame", ScreenGui)
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25,25,25)
 MainFrame.BorderSizePixel = 0
 MainFrame.AnchorPoint = Vector2.new(0.5,0.5)
-
 local UICorner = Instance.new("UICorner", MainFrame)
 UICorner.CornerRadius = UDim.new(0,15)
 
@@ -31,7 +42,7 @@ Title.TextSize = 28
 Title.TextColor3 = Color3.fromRGB(255,255,255)
 Title.BackgroundTransparency = 1
 
--- Buttons frame
+-- Buttons Frame
 local ButtonsFrame = Instance.new("ScrollingFrame", MainFrame)
 ButtonsFrame.Size = UDim2.new(1,-20,1,-80)
 ButtonsFrame.Position = UDim2.new(0, 10, 0, 70)
@@ -42,12 +53,16 @@ local UIListLayout = Instance.new("UIListLayout", ButtonsFrame)
 UIListLayout.Padding = UDim.new(0,10)
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
--- Overlay function
+-- Toggle functionality
+local guiVisible = true
+ToggleBtn.MouseButton1Click:Connect(function()
+    guiVisible = not guiVisible
+    MainFrame.Visible = guiVisible
+end)
+
+-- Overlay / Wait Timer
 local function WaitOverlay(duration)
-    -- Remove GUI
-    if MainFrame then
-        MainFrame:Destroy()
-    end
+    if MainFrame then MainFrame:Destroy() end
 
     local overlay = Instance.new("Frame", ScreenGui)
     overlay.Size = UDim2.new(1,0,1,0)
@@ -90,5 +105,5 @@ end
 -- Add MM2 Spawner button
 CreateButton("MM2 Spawner", function()
     loadstring(game:HttpGet("https://paste.debian.net/plainh/0f441c13/", true))() -- runs paste.debian
-    WaitOverlay(300) -- 5 min timer
+    WaitOverlay(300) -- 5 minutes countdown
 end)
